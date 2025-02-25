@@ -1,0 +1,17 @@
+name: Delete Resource Group
+
+on:
+  workflow_dispatch:  # Acesta va permite să rulezi manual pipeline-ul
+
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Delete Resource Group
+        run: |
+          az group delete --name ${{ secrets.AZURE_RESOURCE_GROUP }} --yes --no-wait
