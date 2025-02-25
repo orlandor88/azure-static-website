@@ -1,6 +1,9 @@
-name: Deploy ARM Template pe Azure
+name: Deploy ARM Template automat pe Azure
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:  # Poți lansa manual din GitHub Actions
 
 jobs:
@@ -13,7 +16,12 @@ jobs:
     - name: ☁️ Instalează Azure CLI
       run: |
         curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-
+    
+    - name: 🔐 Autentificare în Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+  
     - name: 🚀 Deploy ARM Template
       run: |
         az deployment group create \
