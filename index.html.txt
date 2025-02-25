@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofoliul Meu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Bine ai venit!</h1>
+        <p>Acesta este website-ul meu static hostat pe Azure.</p>
+    </header>
+    <section>
+        <h2>Despre mine</h2>
+        <p>Îmi place cloud-ul, Azure și dezvoltarea web.</p>
+    </section>
+    <footer>
+        <p>&copy; 2025 Portofoliu Personal</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
