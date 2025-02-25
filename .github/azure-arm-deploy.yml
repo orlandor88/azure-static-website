@@ -1,0 +1,22 @@
+name: Deploy ARM Template pe Azure
+
+on:
+  workflow_dispatch:  # Poți lansa manual din GitHub Actions
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🧩 Clonează repository-ul
+      uses: actions/checkout@v3
+
+    - name: ☁️ Instalează Azure CLI
+      run: |
+        curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+    - name: 🚀 Deploy ARM Template
+      run: |
+        az deployment group create \
+          --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+          --template-file infra/template.json \
+          --parameters @infra/parameters.json
