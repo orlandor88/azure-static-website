@@ -21,7 +21,12 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-  
+        
+    - name: Create Resource Group if not exists
+      run: |
+        az group show --name ${{ secrets.AZURE_RESOURCE_GROUP }} || \
+        az group create --name ${{ secrets.AZURE_RESOURCE_GROUP }} --location northeurope
+        
     - name: 🚀 Deploy ARM Template
       run: |
         az deployment group create \
