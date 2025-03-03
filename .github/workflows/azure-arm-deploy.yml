@@ -33,7 +33,16 @@ jobs:
           --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
           --template-file infra/template.json \
           --parameters @infra/parameters.json
-    
+
+    - name: 🚀 Deploy fișiere în Azure Blob Storage
+      run: |
+        az storage blob upload-batch \
+          --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
+          --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} \
+          --destination '$web' \
+          --source . \
+          --overwrite true
+
     - name: Enable Static Website
       run: |
         az storage blob service-properties update \
