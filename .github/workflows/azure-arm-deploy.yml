@@ -48,7 +48,15 @@ jobs:
         echo "Noul storage account: $STORAGE_ACCOUNT_NAME"
   
         gh secret set AZURE_STORAGE_ACCOUNT_NAME --body "$STORAGE_ACCOUNT_NAME" --repo $GITHUB_REPOSITORY
-  
+    
+    - name: 🔄 Așteaptă Storage Account
+      run: |
+        for i in {1..10}; do
+          az storage account show --name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} && break
+          echo "Storage account încă nu e disponibil. Mai aștept 10 secunde..."
+          sleep 10
+        done
+      
     - name: 🔑 Actualizează AZURE_STORAGE_ACCOUNT_KEY în GitHub Secrets
       env:
         GH_TOKEN: ${{ secrets.GH_PAT }}
@@ -61,15 +69,7 @@ jobs:
         echo "Noua cheie de acces: $STORAGE_KEY"
 
         gh secret set AZURE_STORAGE_ACCOUNT_KEY --body "$STORAGE_KEY" --repo $GITHUB_REPOSITORY
-    
-    - name: 🔄 Așteaptă Storage Account
-      run: |
-        for i in {1..10}; do
-          az storage account show --name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} && break
-          echo "Storage account încă nu e disponibil. Mai aștept 10 secunde..."
-          sleep 10
-        done
-    
+
     - name: 🚀 Deploy fișiere în Azure Blob Storage
       run: |
         az storage blob upload-batch \
