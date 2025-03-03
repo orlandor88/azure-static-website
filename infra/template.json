@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "storageAccounts_orlandowebsite123_name": {
-            "defaultValue": "orlandowebsite123",
+            "defaultValue": "[concat('stor', uniqueString(resourceGroup().id))]",
             "type": "String"
         }
     },
@@ -59,72 +59,15 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_orlandowebsite123_name'))]"
             ],
-            "sku": {
-                "name": "Standard_LRS",
-                "tier": "Standard"
-            },
             "properties": {
                 "containerDeleteRetentionPolicy": {
                     "enabled": true,
                     "days": 7
                 },
-                "cors": {
-                    "corsRules": []
-                },
                 "deleteRetentionPolicy": {
                     "allowPermanentDelete": false,
                     "enabled": true,
                     "days": 7
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/fileServices",
-            "apiVersion": "2023-05-01",
-            "name": "[concat(parameters('storageAccounts_orlandowebsite123_name'), '/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_orlandowebsite123_name'))]"
-            ],
-            "sku": {
-                "name": "Standard_LRS",
-                "tier": "Standard"
-            },
-            "properties": {
-                "protocolSettings": {
-                    "smb": {}
-                },
-                "cors": {
-                    "corsRules": []
-                },
-                "shareDeleteRetentionPolicy": {
-                    "enabled": true,
-                    "days": 7
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/queueServices",
-            "apiVersion": "2023-05-01",
-            "name": "[concat(parameters('storageAccounts_orlandowebsite123_name'), '/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_orlandowebsite123_name'))]"
-            ],
-            "properties": {
-                "cors": {
-                    "corsRules": []
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/tableServices",
-            "apiVersion": "2023-05-01",
-            "name": "[concat(parameters('storageAccounts_orlandowebsite123_name'), '/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_orlandowebsite123_name'))]"
-            ],
-            "properties": {
-                "cors": {
-                    "corsRules": []
                 }
             }
         },
@@ -137,11 +80,6 @@
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_orlandowebsite123_name'))]"
             ],
             "properties": {
-                "immutableStorageWithVersioning": {
-                    "enabled": false
-                },
-                "defaultEncryptionScope": "$account-encryption-key",
-                "denyEncryptionScopeOverride": false,
                 "publicAccess": "None"
             }
         }
