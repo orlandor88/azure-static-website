@@ -13,9 +13,9 @@ jobs:
     - name: 🧩 Clonează repository-ul
       uses: actions/checkout@v3
 
-    - name: ☁️ Instalează Azure CLI
-      run: |
-        curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+#    - name: ☁️ Instalează Azure CLI
+#      run: |
+#        curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
     
     - name: 🔐 Autentificare în Azure
       uses: azure/login@v1
@@ -33,7 +33,35 @@ jobs:
           --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
           --template-file infra/template.json \
           --parameters @infra/parameters.json
+          
+    - name: ⏳ Așteaptă finalizarea deployment-ului
+      run: sleep 30   
+    
+    - name: 🔄 Actualizează AZURE_STORAGE_ACCOUNT_NAME în GitHub Secrets
+      env:
+        GH_TOKEN: ${{ secrets.GH_PAT }}
+      run: |
+        STORAGE_ACCOUNT_NAME=$(az storage account list \
+          --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+          --query "[0].name" --output tsv)
+          
+        echo "Noul storage account: $STORAGE_ACCOUNT_NAME"
+  
+        gh secret set AZURE_STORAGE_ACCOUNT_NAME --body "$STORAGE_ACCOUNT_NAME" --repo $GITHUB_REPOSITORY
+  
+    - name: 🔑 Actualizează AZURE_STORAGE_ACCOUNT_KEY în GitHub Secrets
+      env:
+        GH_TOKEN: ${{ secrets.GH_PAT }}
+      run: |
+        STORAGE_KEY=$(az storage account keys list \
+          --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
+          --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+          --query "[0].value" --output tsv)
         
+        echo "Noua cheie de acces: $STORAGE_KEY"
+
+        gh secret set AZURE_STORAGE_ACCOUNT_KEY --body "$STORAGE_KEY" --repo $GITHUB_REPOSITORY
+    
     - name: 🔄 Așteaptă Storage Account
       run: |
         for i in {1..10}; do
@@ -41,21 +69,12 @@ jobs:
           echo "Storage account încă nu e disponibil. Mai aștept 10 secunde..."
           sleep 10
         done
-  
-    - name: 🔑 Obține Storage Account Key
-      run: |
-        STORAGE_KEY=$(az storage account keys list \
-          --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
-          --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-          --query "[0].value" --output tsv)
-            
-        echo "STORAGE_KEY=$STORAGE_KEY" >> $GITHUB_ENV
     
     - name: 🚀 Deploy fișiere în Azure Blob Storage
       run: |
         az storage blob upload-batch \
           --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
-          --account-key ${{ env.STORAGE_KEY }} \
+          --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} \
           --destination '$web' \
           --source . \
           --overwrite true
