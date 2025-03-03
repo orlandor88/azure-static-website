@@ -52,11 +52,14 @@ jobs:
     - name: 🔄 Așteaptă Storage Account
       run: |
         for i in {1..10}; do
-          az storage account show --name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} && break
-          echo "Storage account încă nu e disponibil. Mai aștept 10 secunde..."
+          if az storage account show --name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }}; then
+            echo "Storage account este acum disponibil!"
+            break
+          fi
+          echo "Storage account încă nu este disponibil. Mai aștept 10 secunde..."
           sleep 10
         done
-      
+            
     - name: 🔑 Actualizează AZURE_STORAGE_ACCOUNT_KEY în GitHub Secrets
       env:
         GH_TOKEN: ${{ secrets.GH_PAT }}
