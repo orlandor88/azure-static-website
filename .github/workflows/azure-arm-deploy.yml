@@ -33,7 +33,15 @@ jobs:
           --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
           --template-file infra/template.json \
           --parameters @infra/parameters.json
-      
+        
+    - name: 🔄 Așteaptă Storage Account
+      run: |
+        for i in {1..10}; do
+          az storage account show --name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} && break
+          echo "Storage account încă nu e disponibil. Mai aștept 10 secunde..."
+          sleep 10
+        done
+  
     - name: 🔑 Obține Storage Account Key
       run: |
         STORAGE_KEY=$(az storage account keys list \
