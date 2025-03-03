@@ -33,12 +33,21 @@ jobs:
           --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
           --template-file infra/template.json \
           --parameters @infra/parameters.json
-
+      
+    - name: 🔑 Obține Storage Account Key
+      run: |
+        STORAGE_KEY=$(az storage account keys list \
+          --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
+          --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+          --query "[0].value" --output tsv)
+            
+        echo "STORAGE_KEY=$STORAGE_KEY" >> $GITHUB_ENV
+    
     - name: 🚀 Deploy fișiere în Azure Blob Storage
       run: |
         az storage blob upload-batch \
           --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
-          --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} \
+          --account-key ${{ env.STORAGE_KEY }} \
           --destination '$web' \
           --source . \
           --overwrite true
