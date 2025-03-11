@@ -1,24 +1,92 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portofoliul Meu</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Comparatie intre IaaS, PaaS si SaaS</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1, h2 { color: #2c3e50; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #3498db; color: white; }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Bine ai venit!</h1>
-        <p>Acesta este website-ul meu static hostat pe Azure.</p>
-    </header>
-    <section>
-        <h2>Despre mine</h2>
-        <p>Îmi place cloud-ul, Azure și dezvoltarea web.</p>
-        <p>Deploy automatizat cu GitHub Actions și Azure! 🎉</p>		
-    </section>
-    <footer>
-        <p>&copy; 2025 Portofoliu Personal</p>
-    </footer>
-    <script src="script.js"></script>
+    <h1>Comparatie intre IaaS, PaaS si SaaS</h1>
+    
+    <h2>1. Ce inseamna IaaS, PaaS si SaaS?</h2>
+    <p>Cloud computing ofera trei modele principale de servicii:</p>
+    <ul>
+        <li><strong>IaaS (Infrastructure as a Service)</strong> – Ofera infrastructura IT virtualizata, cum ar fi masini virtuale, retele, stocare si echipamente hardware.</li>
+        <li><strong>PaaS (Platform as a Service)</strong> – Ofera o platforma completa pentru dezvoltarea, testarea si gestionarea aplicatiilor fara a gestiona infrastructura de baza.</li>
+        <li><strong>SaaS (Software as a Service)</strong> – Ofera aplicatii software gata de utilizare, accesibile direct prin internet.</li>
+    </ul>
+    
+    <h2>2. Comparatie intre IaaS, PaaS si SaaS</h2>
+    <table>
+        <tr>
+            <th>Caracteristica</th>
+            <th>IaaS</th>
+            <th>PaaS</th>
+            <th>SaaS</th>
+        </tr>
+        <tr>
+            <td>Definitie</td>
+            <td>Ofera resurse hardware virtualizate in cloud.</td>
+            <td>Ofera o platforma de dezvoltare si management al aplicatiilor.</td>
+            <td>Ofera aplicatii software gata de utilizat.</td>
+        </tr>
+        <tr>
+            <td>Control</td>
+            <td>Utilizatorul controleaza infrastructura.</td>
+            <td>Utilizatorul controleaza aplicatia, dar nu infrastructura.</td>
+            <td>Utilizatorul doar foloseste aplicatia.</td>
+        </tr>
+        <tr>
+            <td>Flexibilitate</td>
+            <td>Foarte flexibil, necesita administrare.</td>
+            <td>Echilibrat – mai putina administrare decat IaaS.</td>
+            <td>Cel mai simplu – utilizatorul doar consuma serviciul.</td>
+        </tr>
+        <tr>
+            <td>Exemple de utilizare</td>
+            <td>Gazduire site-uri web, baze de date, masini virtuale.</td>
+            <td>Dezvoltarea si testarea aplicatiilor.</td>
+            <td>Utilizarea aplicatiilor gata facute.</td>
+        </tr>
+    </table>
+    
+    <h2>3. Exemple de servicii Azure pentru fiecare model</h2>
+    <table>
+        <tr>
+            <th>Model</th>
+            <th>Servicii Azure</th>
+            <th>Descriere</th>
+        </tr>
+        <tr>
+            <td>IaaS</td>
+            <td>Azure Virtual Machines</td>
+            <td>Ofera masini virtuale scalabile in cloud.</td>
+        </tr>
+        <tr>
+            <td>PaaS</td>
+            <td>Azure App Service</td>
+            <td>Permite gazduirea si gestionarea aplicatiilor web fara a gestiona servere.</td>
+        </tr>
+        <tr>
+            <td>SaaS</td>
+            <td>Microsoft 365</td>
+            <td>Suita de aplicatii accesibile online.</td>
+        </tr>
+    </table>
+    
+    <h2>4. Concluzie</h2>
+    <p>Alegerea intre IaaS, PaaS si SaaS depinde de nevoile utilizatorului:</p>
+    <ul>
+        <li><strong>IaaS</strong> – pentru control total asupra infrastructurii.</li>
+        <li><strong>PaaS</strong> – pentru dezvoltarea aplicatiilor fara gestionarea infrastructurii.</li>
+        <li><strong>SaaS</strong> – pentru utilizarea aplicatiilor fara administrare tehnica.</li>
+    </ul>
 </body>
 </html>
+
