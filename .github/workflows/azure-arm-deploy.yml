@@ -73,15 +73,6 @@ jobs:
 
         gh secret set AZURE_STORAGE_ACCOUNT_KEY --body "$STORAGE_KEY" --repo $GITHUB_REPOSITORY
 
-    - name: 🚀 Deploy fișiere în Azure Blob Storage
-      run: |
-        az storage blob upload-batch \
-          --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
-          --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} \
-          --destination '$web' \
-          --source . \
-          --overwrite true
-
     - name: Enable Static Website
       run: |
         az storage blob service-properties update \
@@ -89,3 +80,13 @@ jobs:
           --static-website \
           --index-document index.html \
           --404-document 404.html
+
+    - name: 🚀 Deploy fișiere în Azure Blob Storage
+      run: |
+        az storage blob upload-batch \
+          --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
+          --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} \
+          --destination '\$web' \
+          --source . \
+          --overwrite true
+
